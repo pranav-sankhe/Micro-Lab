@@ -12,13 +12,13 @@ port (
 		T1, T2: in std_logic_vector(15 downto 0);
 		reset: in std_logic;
 
-		mux4ALU :out std_logic_vector(1 downto 0);
-		mux8ALU :out std_logic_vector(2 downto 0);
-		Mux2 :out std_logic_vector(4 downto 0);
-		mux4RF :out std_logic_vector(3 downto 0);
-		mux8RFa3 :out std_logic_vector(2 downto 0);
-		en :out std_logic_vector(3 downto 0);
-		var :out std_logic_vector(2 downto 0)			
+		mux4ALU:   out std_logic_vector(1 downto 0);  -- Mux4 ALU 0 and 1 arranged as 1:0  --
+		mux8ALU:   out std_logic_vector(2 downto 0);  -- Mux8 ALU 0, 1 and 2 arranged as 2:1:0 -- 
+		Mux2:      out std_logic_vector(4 downto 0);  -- Mux4 Rfd3.0, Rfd3.1 Rfa1.0 and Rfa1.1 arranged as d31:d30:a11:a10 
+		mux4RF:    out std_logic_vector(3 downto 0);  -- Mux8 RFa3.0, RFa3.1, RFa3.2 arranged as 2:1:0-- 
+		mux8RFa3:  out std_logic_vector(2 downto 0);  -- T1en, T2en, T3en, IR (enables); arranged as IR:T3:T2:T1 -- 
+		en:        out std_logic_vector(3 downto 0);  -- Mux2 ALUout, mem_a, T2, IR, Rfa2 -- 
+		var:       out std_logic_vector(2 downto 0)	  -- rbar_M	wbar_M	wr_RF  arranged as wr_RF:wbar_M:rbar_M-- 	
 		);
 end control_path;
 
@@ -39,15 +39,15 @@ elsif	((op_code_bits = "0000") and (cz_bits ="01")) then op_code <= adz;
 elsif	((op_code_bits = "0010") and (cz_bits ="00")) then op_code <= ndu;
 elsif	((op_code_bits = "0010") and (cz_bits ="10")) then op_code <= ndc;
 elsif	((op_code_bits = "0010") and (cz_bits ="01")) then op_code <= ndz;
-elsif  (op_code_bits = "0001") then op_code <= adi;
-elsif  (op_code_bits = "0011") then op_code <= lhi;
-elsif  (op_code_bits = "0100") then op_code <= lw; 
-elsif  (op_code_bits = "0101") then op_code <= sw;
-elsif  (op_code_bits = "0110") then op_code <= lm;
-elsif  (op_code_bits = "0111") then op_code <= sm;
-elsif  (op_code_bits = "1100") then op_code <= beq;
-elsif  (op_code_bits = "1000") then op_code <= jal;
-elsif  (op_code_bits = "1001") then op_code <= jlr;
+elsif   (op_code_bits = "0001") then op_code <= adi;
+elsif   (op_code_bits = "0011") then op_code <= lhi;
+elsif   (op_code_bits = "0100") then op_code <= lw; 
+elsif   (op_code_bits = "0101") then op_code <= sw;
+elsif   (op_code_bits = "0110") then op_code <= lm;
+elsif   (op_code_bits = "0111") then op_code <= sm;
+elsif   (op_code_bits = "1100") then op_code <= beq;
+elsif   (op_code_bits = "1000") then op_code <= jal;
+elsif   (op_code_bits = "1001") then op_code <= jlr;
 end if;
 end process op_code_assign;
 
