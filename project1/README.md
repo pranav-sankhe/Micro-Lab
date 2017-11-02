@@ -13,7 +13,7 @@ Team Members:
 - Srivatsan Shridhar
 - Tanya Chaudhary 
 
-Here are the details regarding the exact implementation.
+Here are the details regarding the exact implementation:[Click Here](https://github.com/sabSAThai/Micro-Lab/blob/master/project1/problem_statement/Project-1-Multicycle-RISC-IITB.pdf) 
 
 
 ## Details Regarding included code file 
