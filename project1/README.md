@@ -60,7 +60,7 @@ Here are the details regarding the exact implementation:[Click Here](https://git
 - cz_bits(2)
 - eq_T1_T2(1)
 		
-**output:**
+`output:`
 - mux4ALU (2)
 - mux8ALU (3)
 - Mux2 (5)
