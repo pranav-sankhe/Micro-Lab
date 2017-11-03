@@ -18,15 +18,14 @@ Data path:
 		eq_T1_T2(1)
     
 Control path:
-    clock(1)
-    reset(1)
+		clock(1)
+		reset(1)
 		carry(1)
-    zero(1)
+		zero(1)
 		valid(1)
 		op_code_bits(4)
 		cz_bits(2)
-		T1(16) 
-    T2(16)
+		eq_T1_T2(1)
 		
   output:
 		mux4ALU (2)
@@ -35,4 +34,5 @@ Control path:
 		mux4RF (4)
 		mux8RFa3(3)
 		en(4)
-		var(3)	
+		var(3)
+		cz_en(2)
