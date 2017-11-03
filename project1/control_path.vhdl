@@ -9,17 +9,16 @@ port (
 		valid: in std_logic;
 		op_code_bits: in std_logic_vector(3 downto 0);
 		cz_bits : in std_logic_vector(1 downto 0);
-		T1, T2: in std_logic_vector(15 downto 0);
+		eq_T1_T2 : in std_logic;
 		reset: in std_logic;
 
-		mux4ALU:   out std_logic_vector(1 downto 0);  -- Mux4 ALU 0 and 1 arranged as 1:0  --
-		mux8ALU:   out std_logic_vector(2 downto 0);  -- Mux8 ALU 0, 1 and 2 arranged as 2:1:0 -- 
-		Mux2:      out std_logic_vector(4 downto 0);  -- Mux2 ALUout, mem_a, T2, IR, Rfa2 --
-		mux4RF:    out std_logic_vector(3 downto 0);  -- Mux4 Rfd3.0, Rfd3.1 Rfa1.0 and Rfa1.1 arranged as d31:d30:a11:a10 --
-		mux8RFa3:  out std_logic_vector(2 downto 0);  -- Mux8 RFa3.0, RFa3.1, RFa3.2 arranged as 2:1:0-- 
-		en:        out std_logic_vector(3 downto 0);  -- T1en, T2en, T3en, IR (enables); arranged as IR:T3:T2:T1 -- 
-		var:       out std_logic_vector(2 downto 0);  -- rbar_M	wbar_M	wr_RF  arranged as wr_RF:wbar_M:rbar_M-- 
-		cz_en      out std_logic_vector(1 downto 0);  -- arranged as C:Z--	
+		mux4ALU :out std_logic_vector(1 downto 0);
+		mux8ALU :out std_logic_vector(2 downto 0);
+		Mux2 :out std_logic_vector(4 downto 0);
+		mux4RF :out std_logic_vector(3 downto 0);
+		mux8RFa3 :out std_logic_vector(2 downto 0);
+		en :out std_logic_vector(3 downto 0);
+		var :out std_logic_vector(2 downto 0)			
 		);
 end control_path;
 
@@ -40,19 +39,19 @@ elsif	((op_code_bits = "0000") and (cz_bits ="01")) then op_code <= adz;
 elsif	((op_code_bits = "0010") and (cz_bits ="00")) then op_code <= ndu;
 elsif	((op_code_bits = "0010") and (cz_bits ="10")) then op_code <= ndc;
 elsif	((op_code_bits = "0010") and (cz_bits ="01")) then op_code <= ndz;
-elsif   (op_code_bits = "0001") then op_code <= adi;
-elsif   (op_code_bits = "0011") then op_code <= lhi;
-elsif   (op_code_bits = "0100") then op_code <= lw; 
-elsif   (op_code_bits = "0101") then op_code <= sw;
-elsif   (op_code_bits = "0110") then op_code <= lm;
-elsif   (op_code_bits = "0111") then op_code <= sm;
-elsif   (op_code_bits = "1100") then op_code <= beq;
-elsif   (op_code_bits = "1000") then op_code <= jal;
-elsif   (op_code_bits = "1001") then op_code <= jlr;
+elsif  (op_code_bits = "0001") then op_code <= adi;
+elsif  (op_code_bits = "0011") then op_code <= lhi;
+elsif  (op_code_bits = "0100") then op_code <= lw; 
+elsif  (op_code_bits = "0101") then op_code <= sw;
+elsif  (op_code_bits = "0110") then op_code <= lm;
+elsif  (op_code_bits = "0111") then op_code <= sm;
+elsif  (op_code_bits = "1100") then op_code <= beq;
+elsif  (op_code_bits = "1000") then op_code <= jal;
+elsif  (op_code_bits = "1001") then op_code <= jlr;
 end if;
 end process op_code_assign;
 
-next_state_logic: process(present_state, valid, reset, carry, zero, op_code, T1, T2)
+next_state_logic: process(present_state, valid, reset, carry, zero, op_code, eq_T1_T2)
 					begin
 					if (reset = '1') then next_state <= fetch1; 
 					
@@ -78,7 +77,7 @@ next_state_logic: process(present_state, valid, reset, carry, zero, op_code, T1,
 								if(op_code = LM  or  op_code = SM) then next_state <= LM1;
 								elsif(op_code = ADD or op_code = ADC or op_code = ADZ or op_code = ndu or op_code = ndc or op_code = ndz ) then next_state <= add2;
 								elsif(op_code = ADI) then next_state <= ADD4;
-								elsif((op_code = BEQ) and(T1=T2)) then next_state <= BEQ1;
+								elsif((op_code = BEQ) and(eq_T1_T2 = "1" ) then next_state <= BEQ1;
 								elsif(op_code = LW  or  op_code = SW) then next_state <= LW1;
 								elsif( op_code = JLR) then next_state <= jlr1;
 								else
@@ -182,7 +181,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0001";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 					if present_state = fetch2 then
@@ -193,7 +191,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "1100";
 						var       <= "010";
-						cz_en     <= "00"
 					end if;
 
 
@@ -205,7 +202,6 @@ begin
 						mux8RFa3  <= "100";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -217,7 +213,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0011";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 					if present_state = Add2 then
@@ -228,7 +223,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "11"
 					end if;
 
 
@@ -240,7 +234,6 @@ begin
 						mux8RFa3  <= "010";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 					if present_state = add4 then
@@ -251,7 +244,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 
@@ -263,7 +255,6 @@ begin
 						mux8RFa3  <= "001";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 					if present_state = lh1 then
@@ -274,7 +265,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -286,7 +276,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 					if present_state = lw2 then
@@ -297,7 +286,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "010";
-						cz_en     <= "01"
 					end if;
 
 
@@ -309,7 +297,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -321,7 +308,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "001";
-						cz_en     <= "00"
 					end if;
 
 
@@ -333,7 +319,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 
@@ -345,7 +330,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0010";
 						var       <= "010";
-						cz_en     <= "00"
 					end if;
 
 
@@ -357,7 +341,6 @@ begin
 						mux8RFa3  <= "011";
 						en        <= "1000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -369,7 +352,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 
@@ -381,7 +363,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -393,7 +374,6 @@ begin
 						mux8RFa3  <= "100";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -405,7 +385,6 @@ begin
 						mux8RFa3  <= "100";
 						en        <= "0000";
 						var       <= "111";
-						cz_en     <= "00"
 					end if;
 
 
@@ -417,7 +396,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "1001";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 
@@ -430,7 +408,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "101";
-						cz_en     <= "00"
 					end if;
 
 
@@ -443,7 +420,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 
@@ -455,7 +431,6 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0010";
 						var       <= "011";
-						cz_en     <= "00"
 					end if;
 
 				end process;
