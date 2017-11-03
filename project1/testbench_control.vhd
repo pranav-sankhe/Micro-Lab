@@ -8,6 +8,10 @@ entity Testbench is
 end entity;
 
 architecture Behave of Testbench is
+
+    constant num_inputs : integer := 10;
+    constant num_outputs : integer := 26;
+
     signal carry, zero, valid, eq_T1_T2: std_logic;
     signal op_code_bits: std_logic_vector(3 downto 0);
     signal cz_bits : std_logic_vector(1 downto 0);
@@ -19,11 +23,12 @@ architecture Behave of Testbench is
     signal mux8RFa3 : std_logic_vector(2 downto 0);
     signal en : std_logic_vector(3 downto 0);
     signal var : std_logic_vector(2 downto 0);
+    signal cz_en : std_logic_vector(1 downto 0);
     
     signal clk: std_logic := '0';
     signal reset: std_logic := '1';
-    signal din: std_logic_vector(9 downto 0);
-    signal dout: std_logic_vector(23 downto 0);
+    signal din: std_logic_vector(num_inputs-1 downto 0);
+    signal dout: std_logic_vector(num_outputs-1 downto 0);
     --signal finished: std_logic := '0';
     
     function to_std_logic_vector(x: bit_vector) return std_logic_vector is
@@ -55,22 +60,22 @@ architecture Behave of Testbench is
   end to_bit_vector;
 
     component control_path is
-    port (
-        clock : in std_logic;
+    port (--12 inputs
+        clock,reset : in std_logic;
         carry, zero: in std_logic;
         valid: in std_logic;
         op_code_bits: in std_logic_vector(3 downto 0);
         cz_bits : in std_logic_vector(1 downto 0);
         eq_T1_T2: in std_logic;
-        reset: in std_logic;
-
+        --26 outputs
         mux4ALU :out std_logic_vector(1 downto 0);
         mux8ALU :out std_logic_vector(2 downto 0);
         Mux2 :out std_logic_vector(4 downto 0);
         mux4RF :out std_logic_vector(3 downto 0);
         mux8RFa3 :out std_logic_vector(2 downto 0);
         en :out std_logic_vector(3 downto 0);
-        var :out std_logic_vector(2 downto 0)           
+        var :out std_logic_vector(2 downto 0);
+        cz_en: out std_logic_vector(1 downto 0)
         );
     end component;
 
@@ -97,13 +102,15 @@ begin
             op_code_bits => din(6 downto 3),
             cz_bits => din(2 downto 1),
             eq_T1_T2 => din(0),
-            mux4ALU => dout(23 downto 22),
-            mux8ALU => dout(21 downto 19),
-            Mux2 => dout(18 downto 14),
-            mux4RF => dout(13 downto 10),
-            mux8RFa3 => dout(9 downto 7),
-            en => dout(6 downto 3),
-            var => dout(2 downto 0));
+
+            mux4ALU => dout(25 downto 24),
+            mux8ALU => dout(23 downto 21),
+            Mux2 => dout(20 downto 16),
+            mux4RF => dout(15 downto 12),
+            mux8RFa3 => dout(11 downto 9),
+            en => dout(8 downto 5),
+            var => dout(4 downto 2),
+            cz_en => dout(1 downto 0));
 
     -- reset process
     process
@@ -120,8 +127,8 @@ begin
         
         ---------------------------------------------------
         -- DUT variables
-        variable din_var: bit_vector(9 downto 0);
-        variable read_var, dout_var: bit_vector(23 downto 0);
+        variable din_var: bit_vector(num_inputs-1 downto 0);
+        variable read_var, dout_var: bit_vector(num_outputs-1 downto 0);
         ----------------------------------------------------
         
         
