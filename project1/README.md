@@ -29,7 +29,7 @@ Here are the details regarding the exact implementation:[Click Here](https://git
 
 **Data path:**
 
-`input`:    
+`input`:(28)
 - clock(1)
 - reset(1)
 - mux4ALU(2)
@@ -41,7 +41,7 @@ Here are the details regarding the exact implementation:[Click Here](https://git
 - var(3)
 - cz_en(2)
 		
-`output`:		
+`output`:(10)
 - carry(1)
 - zero(1)
 - valid(1)
@@ -50,7 +50,7 @@ Here are the details regarding the exact implementation:[Click Here](https://git
 - eq_T1_T2(1)
     
 **Control path:**
-`input`:
+`input`:(12)
 - clock(1)
 - reset(1)
 - carry(1)
@@ -60,7 +60,7 @@ Here are the details regarding the exact implementation:[Click Here](https://git
 - cz_bits(2)
 - eq_T1_T2(1)
 		
-`output:`
+`output`:(26)
 - mux4ALU (2)
 - mux8ALU (3)
 - Mux2 (5)
