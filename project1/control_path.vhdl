@@ -181,6 +181,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0001";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 					if present_state = fetch2 then
@@ -191,6 +192,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "1100";
 						var       <= "010";
+						cz_en     <= "00";
 					end if;
 
 
@@ -202,6 +204,7 @@ begin
 						mux8RFa3  <= "100";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -213,6 +216,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0011";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 					if present_state = Add2 then
@@ -223,6 +227,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
+						cz_en     <= "11";
 					end if;
 
 
@@ -234,6 +239,7 @@ begin
 						mux8RFa3  <= "010";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 					if present_state = add4 then
@@ -244,6 +250,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 
@@ -255,6 +262,7 @@ begin
 						mux8RFa3  <= "001";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 					if present_state = lh1 then
@@ -265,6 +273,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -276,6 +285,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
+						cz_en     <= "00"; 
 					end if;
 
 					if present_state = lw2 then
@@ -286,6 +296,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "010";
+						cz_en     <= "01";
 					end if;
 
 
@@ -297,6 +308,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -308,6 +320,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "001";
+						cz_en     <= "00";
 					end if;
 
 
@@ -319,6 +332,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 
@@ -330,6 +344,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0010";
 						var       <= "010";
+						cz_en     <= "00";
 					end if;
 
 
@@ -341,6 +356,7 @@ begin
 						mux8RFa3  <= "011";
 						en        <= "1000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -352,6 +368,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 
@@ -363,6 +380,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -374,6 +392,7 @@ begin
 						mux8RFa3  <= "100";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -385,6 +404,7 @@ begin
 						mux8RFa3  <= "100";
 						en        <= "0000";
 						var       <= "111";
+						cz_en     <= "00";
 					end if;
 
 
@@ -396,6 +416,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "1001";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 
@@ -408,6 +429,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0000";
 						var       <= "101";
+						cz_en     <= "00";
 					end if;
 
 
@@ -420,6 +442,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 
@@ -431,6 +454,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0010";
 						var       <= "011";
+						cz_en     <= "00";
 					end if;
 
 				end process;
