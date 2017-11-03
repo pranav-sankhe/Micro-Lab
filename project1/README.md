@@ -25,3 +25,48 @@ Here are the details regarding the exact implementation:[Click Here](https://git
 - `testbench_control.vhdl` : A customized testbench to test(debug) the designed control path. 
 
 
+### Tracefile Description 
+
+**Data path:**
+
+`input`:    
+		- clock(1)
+		- reset(1)
+    	- mux4ALU(2)
+		- mux8ALU (3)
+		- Mux2 (5)
+		- mux4RF(4)
+		- mux8RFa3(3)
+		- en(4)
+		- var(3)
+		- cz_en(2)
+		
+`output`:		
+		- carry(1)
+    	- zero(1)
+		- valid(1)
+		- op_code_bits(4)
+		- cz_bits(2)
+		- eq_T1_T2(1)
+    
+**Control path:**
+`input`:
+		- clock(1)
+		- reset(1)
+		- carry(1)
+		- zero(1)
+		- valid(1)
+		- op_code_bits(4)
+		- cz_bits(2)
+		- eq_T1_T2(1)
+		
+**output:**
+		- mux4ALU (2)
+		- mux8ALU (3)
+		- Mux2 (5)
+		- mux4RF (4)
+		- mux8RFa3(3)
+		- en(4)
+		- var(3)
+		- cz_en(2)
+
