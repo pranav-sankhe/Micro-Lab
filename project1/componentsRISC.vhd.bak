@@ -573,6 +573,9 @@ end entity;
 architecture behave of memory is
    type MemArray is array(natural range <>) of std_logic_vector(data_width-1 downto 0);
    signal marray: MemArray(0 to ((2**(addr_width-12))-1));
+   marray(0) <= "1000000000000010"; --JAL R0 02H
+   marray(1) <= "1000000000000010";
+   marray(3) <= "0000001010011000"; --ADD R1 R2 R3
    
    function To_Integer(x: bit_vector) return integer is
       variable xu: unsigned(x'range);
