@@ -437,6 +437,13 @@ begin
   begin      
 	if (reset='1') then
 		registers(7) <= "0000000000000000";
+		registers(6) <= "0000000000000000";
+		registers(5) <= "0000000000000000";
+		registers(4) <= "0000000000000000";
+		registers(3) <= "0000000000000000";
+		registers(2) <= "0000000000000000";
+		registers(1) <= "0000000000000000";
+		registers(0) <= "0000000000000000";
 	else
 		if (clk'event and clk = '1') then
 			if wr='1' then
