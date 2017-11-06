@@ -18,8 +18,7 @@ port (
 		mux4RF :out std_logic_vector(3 downto 0);
 		mux8RFa3 :out std_logic_vector(2 downto 0);
 		en :out std_logic_vector(3 downto 0);
-		var :out std_logic_vector(2 downto 0);
-		cz_en :out std_logic_vector(1 downto 0)
+		var :out std_logic_vector(2 downto 0)			
 		);
 end control_path;
 
@@ -78,7 +77,7 @@ next_state_logic: process(present_state, valid, reset, carry, zero, op_code, eq_
 								if(op_code = LM  or  op_code = SM) then next_state <= LM1;
 								elsif(op_code = ADD or op_code = ADC or op_code = ADZ or op_code = ndu or op_code = ndc or op_code = ndz ) then next_state <= add2;
 								elsif(op_code = ADI) then next_state <= ADD4;
-								elsif((op_code = BEQ) and(eq_T1_T2 = '1')) then next_state <= BEQ1;
+								elsif((op_code = BEQ) and(eq_T1_T2 = "1" ) then next_state <= BEQ1;
 								elsif(op_code = LW  or  op_code = SW) then next_state <= LW1;
 								elsif( op_code = JLR) then next_state <= jlr1;
 								else

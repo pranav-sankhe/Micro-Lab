@@ -9,27 +9,14 @@ end entity;
 
 architecture Behave of Testbench is
 
-    constant num_inputs : integer := 10;
-    constant num_outputs : integer := 26;
-
-    signal carry, zero, valid, eq_T1_T2: std_logic;
-    signal op_code_bits: std_logic_vector(3 downto 0);
-    signal cz_bits : std_logic_vector(1 downto 0);
-
-    signal mux4ALU :std_logic_vector(1 downto 0);
-    signal mux8ALU :std_logic_vector(2 downto 0);
-    signal Mux2 :std_logic_vector(4 downto 0);
-    signal mux4RF : std_logic_vector(3 downto 0);
-    signal mux8RFa3 : std_logic_vector(2 downto 0);
-    signal en : std_logic_vector(3 downto 0);
-    signal var : std_logic_vector(2 downto 0);
-    signal cz_en : std_logic_vector(1 downto 0);
+    constant num_inputs : integer := 26;
+    constant num_outputs : integer := 10;
     
     signal clk: std_logic := '1';
     signal reset: std_logic := '1';
     signal din: std_logic_vector(num_inputs-1 downto 0);
     signal dout: std_logic_vector(num_outputs-1 downto 0);
-    --signal finished: std_logic := '0';
+    signal IR_show, RF_d2_show, RF_d1_show, T1_show, T2_show, T3_show, mem_show, ALU_show: std_logic_vector(15 downto 0);
     
     function to_std_logic_vector(x: bit_vector) return std_logic_vector is
       variable ret_val: std_logic_vector(1 to x'length);
@@ -59,75 +46,72 @@ architecture Behave of Testbench is
     return(ret_val);
   end to_bit_vector;
 
-    component control_path is
-    port (--12 inputs
-        clock,reset : in std_logic;
-        carry, zero: in std_logic;
-        valid: in std_logic;
-        op_code_bits: in std_logic_vector(3 downto 0);
-        cz_bits : in std_logic_vector(1 downto 0);
-        eq_T1_T2: in std_logic;
-        --26 outputs
-        mux4ALU :out std_logic_vector(1 downto 0);
-        mux8ALU :out std_logic_vector(2 downto 0);
-        Mux2 :out std_logic_vector(4 downto 0);
-        mux4RF :out std_logic_vector(3 downto 0);
-        mux8RFa3 :out std_logic_vector(2 downto 0);
-        en :out std_logic_vector(3 downto 0);
-        var :out std_logic_vector(2 downto 0);
-        cz_en: out std_logic_vector(1 downto 0)
+    entity datapath is 
+    port (--28 inputs
+        clock : in std_logic;
+        reset: in std_logic;
+        mux4ALU :in std_logic_vector(1 downto 0);
+        mux8ALU :in std_logic_vector(2 downto 0);
+        Mux2 :in std_logic_vector(4 downto 0);
+        mux4RF :in std_logic_vector(3 downto 0);
+        mux8RFa3 :in std_logic_vector(2 downto 0);
+        en :in std_logic_vector(3 downto 0);
+        var :in std_logic_vector(2 downto 0);
+        cz_en: in std_logic_vector(1 downto 0);
+        --10 outputs
+        carry, zero: out std_logic;
+        valid: out std_logic;
+        op_code_bits: out std_logic_vector(3 downto 0);
+        cz_bits : out std_logic_vector(1 downto 0);
+        eq_T1_T2: out std_logic;
+        IR_show, RF_d2_show, RF_d1_show, T1_show, T2_show, T3_show, mem_show, ALU_show: out std_logic_vector(15 downto 0)
         );
-    end component;
 
 begin
     clk <= not clk after 10 ns; -- assume 20ns clock.
-	 reset <= '0';
-    
-    --cp: control_path port map(din(9) => carry,
-    --        din(8) => zero,
-    --        din(7) => valid,
-    --        din(6 downto 3) => op_code_bits,
-    --        din(2 downto 1) => cz_bits,
-    --        din(0) => eq_T1_T2,
-    --        dout(23 downto 22) => mux4ALU,
-    --        dout(21 downto 19) => mux8ALU,
-    --        dout(18 downto 14) => Mux2,
-    --        dout(13 downto 10) => mux4RF,
-    --        dout(9 downto 7) => mux8RFa3,
-    --        dout(6 downto 3) => en,
-    --        dout(2 downto 0) => var);
+    reset <= '0';
 
-    cp: control_path port map(
-				clock => clk,
-				reset => reset,
-				carry => din(9),
-            zero => din(8),
-            valid => din(7),
-            op_code_bits => din(6 downto 3),
-            cz_bits => din(2 downto 1),
-            eq_T1_T2 => din(0),
+    dp: datapath port map(
+        clock => clk,
+        reset => reset,
+        mux4ALU => din(25 downto 24),
+        mux8ALU => din(23 downto 21),
+        Mux2 => din(20 downto 16),
+        mux4RF => din(15 downto 12),
+        mux8RFa3 => din(11 downto 9),
+        en => din(8 downto 5),
+        var => din(4 downto 2),
+        cz_en => din(1 downto 0),
 
-            mux4ALU => dout(25 downto 24),
-            mux8ALU => dout(23 downto 21),
-            Mux2 => dout(20 downto 16),
-            mux4RF => dout(15 downto 12),
-            mux8RFa3 => dout(11 downto 9),
-            en => dout(8 downto 5),
-            var => dout(4 downto 2),
-            cz_en => dout(1 downto 0));
+        carry => dout(9),
+        zero => dout(8),
+        valid => dout(7),
+        op_code_bits => dout(6 downto 3),
+        cz_bits => dout(2 downto 1),
+        eq_T1_T2 => dout(0)
+        
+        IR_show => IR_show,
+        RF_d2_show => RF_d2_show,
+        RF_d1_show => RF_d1_show,
+        T1_show => T1_show,
+        T2_show => T2_show,
+        T3_show => T3_show,
+        mem_show => mem_show,
+        ALU_show => ALU_show
+        );
 
     -- reset process
     --process
     --begin
     --    wait until clk = '1';
-    --    reset <= '1';
+    --    reset <= '0';
     --    wait;
     --end process;
 
     process 
         variable err_flag : boolean := false;
-        File INFILE: text open read_mode is "/home/srivatsan/Micro-Lab/project1/TRACEFILE.txt";
-        FILE OUTFILE: text  open write_mode is "/home/srivatsan/Micro-Lab/project1/OUTPUTS.txt";
+        File INFILE: text open read_mode is "TRACEFILE.txt";
+        FILE OUTFILE: text  open write_mode is "OUTPUTS.txt";
         
         ---------------------------------------------------
         -- DUT variables
@@ -142,11 +126,11 @@ begin
         variable LINE_COUNT: integer := 0;
         
     begin
+
         while not endfile(INFILE) loop 
             LINE_COUNT := LINE_COUNT + 1;
             readLine (INFILE, INPUT_LINE);
             
-            --start the gcd system
             
             read (INPUT_LINE, din_var);
             din <= to_std_logic_vector(din_var);
