@@ -178,7 +178,7 @@ begin
 						mux4ALU   <= "00";
 						mux8ALU   <= "000";
 						Mux2      <= "00000";
-						mux4RF    <= "0000";
+						mux4RF    <= "0001";
 						mux8RFa3  <= "000";
 						en        <= "0001";
 						var       <= "011";
@@ -251,7 +251,7 @@ begin
 						mux8RFa3  <= "000";
 						en        <= "0100";
 						var       <= "011";
-						cz_en     <= "00";
+						cz_en     <= "11";
 					end if;
 
 
