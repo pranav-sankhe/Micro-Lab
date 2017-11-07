@@ -429,7 +429,7 @@ begin
 						mux4RF    <= "0000";
 						mux8RFa3  <= "000";
 						en        <= "0000";
-						var       <= "101";
+						var       <= "001";
 						cz_en     <= "00";
 					end if;
 
