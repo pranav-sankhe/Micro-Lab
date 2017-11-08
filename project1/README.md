@@ -8,21 +8,29 @@ Design a multi-­‐cycle processor, IITB-­‐RISC, whose instruction set archi
 
 We did this project as a team of 4. 
 Team Members: 
-- Pranav Sankhe
-- Sachin Goyal 
-- Srivatsan Shridhar
-- Tanya Chaudhary 
+- Pranav Sankhe       150070009
+- Sachin Goyal        150020069  
+- Srivatsan Shridhar  150070005 
+- Tanya Chaudhary     150070033  
 
 Here are the details regarding the exact implementation:[Click Here](https://github.com/sabSAThai/Micro-Lab/blob/master/project1/problem_statement/Project-1-Multicycle-RISC-IITB.pdf) 
 
 
 ## Details Regarding included code file 
 
-- `control path.vhdl` : Implements the control flow of machine instructions. 
+- `datapath.vhdl` implements our datapath infrastructure and `control_path.vhdl` implements the control flow.
 
-- `datapath.vhdl` : Implements the dataflow of the processor. 
+- `TRACEFILE.txt` and `datapath_trace.txt` are the tracefiles we used to check our control path and datapath VHDL codes. 
 
-- `testbench_control.vhdl` : A customized testbench to test(debug) the designed control path. 
+- `trace_invert.py` is a python script to invert the inputs and outputs of the controlpath which serves as a tracefile for the datapath debugging. 
+
+- `OUTPUTS.txt` is used to store the outputs after testing the vhdl files on a tracefile. 
+
+- `testbench_control.vhd` and `testbench_path.vhd` are testbenches for control and data path vhdl files respectively. 
+
+- `datapath_fpga.vhdl` is the file we uploaded on FPGA. 
+
+- `Control Store - Sheet1.pdf` has the control store of our implementation. 
 
 
 ### Tracefile Description 
